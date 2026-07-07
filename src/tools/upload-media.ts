@@ -46,12 +46,13 @@ export async function handleUploadMedia(
 
   try {
     // Method 1: Upload from external URL
-    // Note: SDK types may not include 'url' property, but API supports it
+    // The SDK's uploadMedia reads the `data` field (Blob | ReadableStream |
+    // string | URL). Passing `{ url }` leaves `data` undefined, so the SDK
+    // sends an empty file and microCMS returns 400.
     if (externalUrl) {
-      const result = await clients.managementClient.uploadMedia(
-        // biome-ignore lint/suspicious/noExplicitAny: SDK type limitation
-        { url: externalUrl } as any
-      );
+      const result = await clients.managementClient.uploadMedia({
+        data: new URL(externalUrl),
+      });
       return result;
     }
 

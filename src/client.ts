@@ -195,10 +195,10 @@ export const microCMSClient = {
 export const microCMSManagementClient = {
   uploadMedia: (
     params:
-      | { data: File | Blob }
+      | { data: File | Blob; name?: string }
       | {
-          url: string;
-          fileName?: string;
+          data: string | URL;
+          name?: string;
           customRequestHeaders?: Record<string, string>;
         }
   ) => {
@@ -671,8 +671,8 @@ export async function uploadMedia(
   params:
     | { data: File | Blob; name?: string }
     | {
-        url: string;
-        fileName?: string;
+        data: string | URL;
+        name?: string;
         customRequestHeaders?: Record<string, string>;
       },
   serviceId?: string
